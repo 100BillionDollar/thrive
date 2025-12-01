@@ -35,25 +35,22 @@ export default function Header() {
          }   
         </figure>
 
-        {/* Desktop Navigation */}
         <nav className='bg-[#005057ab] hidden lg:flex gap-[24px] px-[35px] py-[10px] rounded-[30px]'>
           <li className='list-none text-[#fff]'>
             <Link href={'#whoweare'}>Who We Are</Link>
           </li>
           <li className='list-none text-[#fff]'>
-            <Link href={'#corevalue'}>Why We Are On This Journey</Link>
+            <Link href={'#corevalues'}>Why We Are On This Journey</Link>
           </li>
           <li className='list-none text-[#fff]'>
             <Link href={'#newsletter'}>Newsletter</Link>
           </li>
         </nav>
 
-        {/* Desktop Contact Button */}
         <div className='hidden lg:block'>
           <Button text={'Contact'}/>
         </div>
 
-        {/* Mobile Hamburger Icon */}
         <button 
           onClick={toggleMenu} 
           className='lg:hidden text-[#fff] text-[32px] z-[100]'
@@ -62,7 +59,6 @@ export default function Header() {
           {isMenuOpen ? <IoClose /> : <HiMenuAlt3 />}
         </button>
 
-        {/* Mobile Menu */}
         <div className={`lg:hidden fixed top-0 right-0 w-[70%] h-screen bg-[#005057] z-[98] pt-[120px] px-[30px] transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           <nav className='flex flex-col gap-[30px]'>
             <li className='list-none text-[#fff] text-[18px]'>
@@ -80,7 +76,6 @@ export default function Header() {
           </nav>
         </div>
 
-        {/* Overlay */}
         <div 
           onClick={toggleMenu}
           className={`lg:hidden fixed top-0 left-0 w-full h-screen bg-black/50 z-[97] transition-opacity duration-300 ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
