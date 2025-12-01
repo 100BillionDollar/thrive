@@ -2,6 +2,7 @@
 import React from "react";
 import Button from "../common/Button";
 import { useState } from "react";
+import SecondaryHeading from "../common/SecondaryHeading";
 
 export default function NewsletterForm() {
     const [isChecked, setIsChecked] = useState(false);
@@ -9,13 +10,12 @@ export default function NewsletterForm() {
     return (
         <div className="common_padding bg-[#1B1B1B]"  id="newsletter">
             <div className="container-custom">
-                <div className="text-center mx-auto max-w-[800px]">
+                <div className="lg:text-center mx-auto max-w-[800px]">
 
                     {/* Heading */}
                     <div className="heading">
-                        <h2 className="text-[40px] text-white leading-[1.3] ivy_presto mb-[20px]">
-                            Together, We’re Building a World Where Every Human Is Thriving.
-                        </h2>
+                         <SecondaryHeading text={`Together, We’re Building a World Where Every Human Is Thriving.`}/>
+                       
                         <p className="text-white text-[18px] opacity-80">
                             Subscribe for content, conversations, and updates that support
                             mothers, parents, and children of all abilities.
@@ -25,10 +25,10 @@ export default function NewsletterForm() {
                     {/* Form */}
                     <form className="pt-[40px]">
                         {/* Input Field */}
-                        <div className="flex rounded-[18px] p-[25px] items-center border border-[#3f3d42] gap-[20px]  focus-within:border-[#5bc8d7] transition-all">
+                        <div className="lg:flex rounded-[18px] p-[25px] items-center border border-[#3f3d42] gap-[20px]  focus-within:border-[#5bc8d7] transition-all">
                             <input
                                 type="email"
-                                className="flex-1 bg-transparent text-white placeholder:text-gray-400 placeholder:text-[16px] outline-none"
+                                className="flex-1 lg:mb-0 mb-[20px] bg-transparent text-white placeholder:text-gray-400 placeholder:text-[16px] outline-none"
                                 placeholder="Signup form with email..."
                             />
 

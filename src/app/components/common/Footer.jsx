@@ -10,9 +10,9 @@ export default function Footer() {
     return (
         <div className=' bg-[#fff]'>
             <div className='container-custom'>
-                <div className='common_padding flex justify-between'>
+                <div className='common_padding flex flex-wrap justify-between'>
                     <Image src={`/assets/images/logo.png`} alt='' height={422} width={300} />
-                    <ul className=''>
+                    <ul className='lg:mt-0 mt-3'>
                         <li className='mb-4'>
                             <Link className='' href={'#'}>
                                 Privacy Policy
@@ -37,7 +37,7 @@ export default function Footer() {
                     </ul>
 
                 </div>
-                <div className='flex  justify-between py-[20px] border-t-[1px] border-[#00000033]'>
+                <div className='flex  flex-wrap justify-center gap-[10px] lg:justify-between py-[20px] border-t-[1px] border-[#00000033]'>
                     <ul className='flex items-center gap-5'>
                         <li>
                             <Link className='h-[25px] w-[25px] flex items-center justify-center rounded-[50%] bg-[#1B1B1B] block text-[#fff]' href={'#'}>

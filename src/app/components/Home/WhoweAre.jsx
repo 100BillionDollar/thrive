@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-
+import SecondaryHeading from "../common/SecondaryHeading";
 const data = [
   {
     id: 1,
@@ -27,16 +27,14 @@ export default function WhoweAre() {
     <div className="common_padding" id="whoweare">
       <div className="container-custom">
         <div className="heading">
-          <h2 className="text-[54px] leading-[1.4] ivy_presto mb-[20px]">
-            Who We Are
-          </h2>
+          <SecondaryHeading customclass={`!text-[#000]`} text={`Who We Are`}/>
           <p>
             A home for parents, mothers, and humans of all abilities to learn,
             connect, and thrive together.
           </p>
         </div>
 
-        <div className="grid grid-cols-3 gap-[30px] mt-[50px]">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-[30px] mt-[50px]">
           {data.map((item) => (
             <div
               key={item.id}
