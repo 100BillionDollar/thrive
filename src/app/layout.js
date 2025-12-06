@@ -1,6 +1,5 @@
 import "./globals.css";
 import { Nunito } from "next/font/google";
-
 const nunito = Nunito({
   subsets: ["latin"],
   variable:'--nunito',
@@ -15,7 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${nunito.variable} antialiased`}
+        className={`${nunito.variable} font-nunito antialiased`}
       >
         
         {children}

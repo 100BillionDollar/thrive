@@ -27,7 +27,7 @@ export default function WhoweAre() {
     <div className="common_padding" id="whoweare">
       <div className="container-custom">
         <div className="heading">
-          <SecondaryHeading customclass={`!text-[#000]`} text={`Who We Are`}/>
+          <SecondaryHeading customclass={`!text-[#000]`} text={`Who We Are`} />
           <p>
             A home for parents, mothers, and humans of all abilities to learn,
             connect, and thrive together.
@@ -38,7 +38,7 @@ export default function WhoweAre() {
           {data.map((item) => (
             <div
               key={item.id}
-              className="relative overflow-hidden rounded-[20px] group"
+              className="relative overflow-hidden rounded-[20px] "
             >
               <Image
                 src={item.img}
@@ -48,34 +48,21 @@ export default function WhoweAre() {
                 alt={item.title}
               />
 
-             <div className="absolute bottom-0 left-0 w-full bg-[linear-gradient(180deg,rgba(0,0,0,0)_0%,#004F55_100%)] p-[30px] pb-[60px] px-[60px] text-[#fff]">
+              <div className="absolute h-full flex flex-col justify-end bottom-0 left-0 w-full bg-[linear-gradient(180deg,rgba(0,0,0,0)_0%,#004F55_100%)] p-[30px] pb-[60px] px-[40px] text-[#fff]">
 
-    {/* Animate ENTIRE TEXT BLOCK */}
-    <div className="
-      transform
-      translate-y-20
-      group-hover:translate-y-0
-      transition-all
-      duration-500
-    ">
-      <h3 className="ivy_presto text-[32px] tracking-[1.1] mb-[10px]">
-        {item.title}
-      </h3>
+                <div >
+                  <h3 className="ivy_presto text-[32px] tracking-[1.1] mb-[10px]">
+                    {item.title}
+                  </h3>
 
-      <p
-        className="
-          opacity-0
-          group-hover:opacity-100
-          transition-all
-          duration-500
-          delay-75
-        "
-      >
-        {item.text}
-      </p>
-    </div>
+                  <p
 
-  </div>
+                  >
+                    {item.text}
+                  </p>
+                </div>
+
+              </div>
             </div>
           ))}
         </div>

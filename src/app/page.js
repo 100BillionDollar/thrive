@@ -12,7 +12,7 @@ export default function Home() {
         <WhoweAre/> 
         <CoreValues/> 
         <NewsletterForm/>
-        <Contactus/>
+        {/* <Contactus/> */}
    </CommonLayout>
   );
 }
