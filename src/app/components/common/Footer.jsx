@@ -48,7 +48,7 @@ export default function Footer() {
                 </div>
                 <div className='text-center py-[20px] border-t-[1px] border-[#00000033]'>
                        
-                    <p>Copyright notice:© Thrive	HQ</p>
+                    <p>Copyright © 2025 Thrive HQ. All rights reserved.</p>
                 </div>
             </div>
 

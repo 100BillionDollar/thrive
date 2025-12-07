@@ -21,14 +21,14 @@ export default function Banner() {
     {
       img: '/assets/images/home/banner-two.jpg',
       alt: 'Banner 2',
-      heading: 'Discover Authentic Voices',
-      sub: 'Join a community that celebrates truth and connection',
+     heading: 'Empowering Every Human to Thrive',
+      sub: 'A place for real people, real stories, and real growth',
     },
     {
       img: '/assets/images/home/banner-three.jpg',
       alt: 'Banner 3',
-      heading: 'Grow Together, Every Day',
-      sub: 'Real insights, real impact – start your journey now',
+       heading: 'Empowering Every Human to Thrive',
+      sub: 'A place for real people, real stories, and real growth',
     },
   ];
 

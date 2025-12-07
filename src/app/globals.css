@@ -24,6 +24,7 @@ body{background-color: var(--bg-color);}
   padding-left: 15px;
   padding-right: 15px;
 }
+.common_padding{padding:60px 0}
 
 /* Extra small (default) – 100% width */
 
@@ -36,6 +37,8 @@ body{background-color: var(--bg-color);}
 
 /* Medium (≥768px) */
 @media (min-width: 768px) {
+  .common_padding{padding:80px 0}
+
   .container-custom {
     max-width: 720px;
   }
@@ -62,7 +65,6 @@ body{background-color: var(--bg-color);}
   }
 }
 
-.common_padding{padding:80px 0}
 @keyframes fadeIn {
           from {
             opacity: 0;

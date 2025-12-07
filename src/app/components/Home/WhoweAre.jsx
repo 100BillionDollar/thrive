@@ -28,7 +28,7 @@ export default function WhoweAre() {
       <div className="container-custom">
         <div className="heading">
           <SecondaryHeading customclass={`!text-[#000]`} text={`The ThriveHQ Ecosystem`} />
-          <p>
+          <p className="text-[18px]">
             A home for parents, mothers, and humans of all abilities to learn,
             connect, and thrive together.
           </p>
@@ -48,14 +48,14 @@ export default function WhoweAre() {
                 alt={item.title}
               />
 
-              <div className={`absolute  ${data.length-1==index?'!pb-[80px]':''} h-full flex flex-col justify-end bottom-0 left-0 w-full bg-[linear-gradient(180deg,rgba(0,0,0,0)_30%,#004F55_90%)] p-[30px] pb-[60px] px-[40px] text-[#fff]`}>
+              <div className={`absolute  ${data.length-1==index?'!pb-[80px]':''} h-full flex flex-col justify-end bottom-0 left-0 w-full bg-[linear-gradient(180deg,rgba(0,0,0,0)_30%,#004F55_90%)] p-[30px] pb-[60px]  px-[30px] lg:px-[40px] text-[#fff]`}>
 
                 <div >
                   <h3 className="ivy_presto text-[32px] tracking-[1.1] mb-[10px]">
                     {item.title}
                   </h3>
 
-                  <p    >
+                  <p>
                     {item.text}
                   </p>
                 </div>

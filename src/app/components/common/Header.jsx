@@ -42,7 +42,7 @@ export default function Header() {
       </figure>
 
       {/* Desktop Nav */}
-      <nav className='bg-[#005057ab] hidden lg:flex gap-[40px] px-[35px] py-[10px] rounded-[30px]'>
+      <nav className='bg-[#005057ab] hidden lg:flex gap-[40px] px-[35px] py-[12px] rounded-[30px]'>
         <li className='list-none text-[#fff] cursor-pointer' onClick={() => scrollToSection('#whoweare')}>
          The ThriveHQ Ecosystem
         </li>
@@ -64,25 +64,25 @@ export default function Header() {
         className='lg:hidden text-[#fff] text-[32px] z-[100]'
         aria-label='Toggle menu'
       >
-        {isMenuOpen ? <IoClose /> : <HiMenuAlt3 />}
+        {isMenuOpen ? <IoClose className='text-[#000]' /> : <HiMenuAlt3 />}
       </button>
 
       {/* Mobile Menu */}
-      <div className={`lg:hidden fixed top-0 right-0 w-[70%] h-screen bg-[#005057b3] z-[98] pt-[120px] px-[30px] transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`lg:hidden fixed top-0 right-0 w-[80%] h-screen bg-[#fff] z-[98] pt-[90px] px-[30px] transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <nav className='flex flex-col gap-[30px]'>
-          <li className='list-none text-[#fff] text-[18px] cursor-pointer' onClick={() => scrollToSection('#whoweare')}>
+          <li className='list-none text-[#000] text-[18px] cursor-pointer' onClick={() => scrollToSection('#whoweare')}>
             Who We Are
           </li>
-          <li className='list-none text-[#fff] text-[18px] cursor-pointer' onClick={() => scrollToSection('#corevalues')}>
+          <li className='list-none text-[#000] text-[18px] cursor-pointer' onClick={() => scrollToSection('#corevalues')}>
             Why We Are On This Journey
           </li>
-          <li className='list-none text-[#fff] text-[18px] cursor-pointer' onClick={() => scrollToSection('#newsletter')}>
+          <li className='list-none text-[#000] text-[18px] cursor-pointer' onClick={() => scrollToSection('#newsletter')}>
             Newsletter
           </li>
           <div className='mt-[20px]'>
             <button 
               onClick={() => scrollToSection('#contact')} 
-              className="bg-[#00A0A6] text-white px-6 py-2 rounded-full hover:bg-[#008085] transition w-full text-center"
+              className="bg-[#D25238] text-white px-6 py-2 rounded-full hover:bg-[#008085] transition w-full text-center"
             >
               Contact
             </button>

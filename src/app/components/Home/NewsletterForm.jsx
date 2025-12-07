@@ -18,7 +18,7 @@ export default function NewsletterForm() {
                        
                         <p className="text-white text-[18px] opacity-80">
                             Subscribe for content, conversations, and updates that support
-                            mothers, parents, and children of all abilities.
+                            mothers,<br></br> parents, and children of all abilities.
                         </p>
                     </div>
 
@@ -30,7 +30,7 @@ export default function NewsletterForm() {
                             placeholder="Subscribe for daily updates"
                             />
 
-                            <Button className={`px-[50px]`} text="Join Our Tribe" />
+                            <Button className={`px-[60px]`} text="Join Our Tribe" />
                         </div>
 
                        
