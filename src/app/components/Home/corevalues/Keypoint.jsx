@@ -4,7 +4,7 @@ import Image from 'next/image';
 export default function Keypoint() {
   return (
     <section className=" pb-[80px] lg:pb-[100px]">
-      <div className="container mx-auto px-4 lg:px-0">
+      <div className=" mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <div className="lg:col-span-6 order-2 lg:order-1">
             <div className="relative rounded-[20px] overflow-hidden shadow-lg">

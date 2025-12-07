@@ -11,8 +11,8 @@ export default function Footer() {
             <div className='container-custom'>
                 <div className=' py-[30px] flex flex-col  flex-wrap items-center justify-center'>
                 
- <Image src={`/assets/images/logo.png`} alt='' height={422} width={300} />
-                    <ul className='flex items-center gap-5'>
+                <Image src={`/assets/images/logo-dark-1.png`} alt='' height={422} width={300} />
+                    <ul className='flex items-center mt-[25px] gap-5'>
                         <li>
                             <Link className='h-[45px] w-[45px] flex items-center justify-center rounded-[50%] bg-[#1B1B1B] block text-[#fff]' href={'#'}>
                                 <FaFacebookF  className='h-6 w-6' />
@@ -41,7 +41,7 @@ export default function Footer() {
                         </li>
                       
                     </ul>
-                    <div className='flex  gap-2'>
+                    <div className='flex items-center  gap-2'>
                         <MdOutlineMailOutline  className='h-5 w-5'/>
                         <a className='underline' href="mailto:media@themomshq.me">media@themomshq.me</a>
                     </div>

@@ -22,24 +22,20 @@ export default function NewsletterForm() {
                         </p>
                     </div>
 
-                    {/* Form */}
                     <form className="pt-[40px]">
-                        {/* Input Field */}
-                        <div className="lg:flex rounded-[18px] p-[25px] items-center border border-[#3f3d42] gap-[20px]  focus-within:border-[#5bc8d7] transition-all">
-                            <input
-                                type="email"
-                                className="flex-1 lg:mb-0 mb-[20px] bg-transparent text-white placeholder:text-gray-400 placeholder:text-[16px] outline-none"
-                                placeholder="Signup form with email..."
+                        <div className="lg:flex rounded-[18px] py-[20px] p-[20px] items-center border border-[#9b989f] gap-[20px]  focus-within:border-[#5bc8d7] transition-all">
+                           <input
+                            type="email"
+                            className="flex-1 lg:mb-0 mb-[20px] bg-transparent text-white placeholder:text-gray-400 placeholder:text-[16px] outline-none"
+                            placeholder="Subscribe for daily updates"
                             />
 
-                            <Button text="Join Our Tribe" />
+                            <Button className={`px-[50px]`} text="Join Our Tribe" />
                         </div>
 
-                        {/* Custom Checkbox */}
-                        {/* Custom Checkbox */}
-                        <div className="flex gap-[12px] mt-[25px] items-start">
+                       
+                        {/* <div className="flex gap-[12px] mt-[25px] items-start">
                             <label className="flex items-start gap-3 cursor-pointer select-none relative">
-                                {/* Checkbox input */}
                                 <input
                                     type="checkbox"
                                     className="sr-only"
@@ -47,7 +43,6 @@ export default function NewsletterForm() {
                                     onChange={(e) => setIsChecked(e.target.checked)}
                                 />
 
-                                {/* Custom checkbox */}
                                 <span className={`w-5 h-5 rounded border flex items-center justify-center text-white transition-all shrink-0
                          ${isChecked ? 'bg-[#29BFCF] border-[#29BFCF]' : 'border-gray-500'}`}>
                                     {isChecked && (
@@ -58,13 +53,12 @@ export default function NewsletterForm() {
                                     )}
                                 </span>
 
-                                {/* Label text */}
                                 <span className="text-white opacity-80 leading-[1.5]">
                                     Consent disclaimer about data privacy and opt-out.
                                 </span>
                             </label>
 
-                        </div>
+                        </div> */}
 
 
                     </form>

@@ -5,7 +5,7 @@ import { HiMenuAlt3 } from 'react-icons/hi'
 import { IoClose } from 'react-icons/io5'
 import { gsap } from 'gsap'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
-
+import Button from './Button'
 gsap.registerPlugin(ScrollToPlugin)
 
 export default function Header() {
@@ -36,18 +36,18 @@ export default function Header() {
   }, [])
 
   return (
-    <header className={`${isScrolled ? 'fixed top-0 bg-[#005057] shadow-lg animate-slideDown' : 'absolute'} z-[99] px-[15px] lg:px-[35px] flex justify-between items-center w-full transition-all duration-300`}>
+    <header className={`${isScrolled ? 'fixed top-0 bg-[#005057] shadow-lg animate-slideDown' : 'absolute'} z-[99] px-[15px] py-[15px] lg:px-[35px] flex justify-between items-center w-full transition-all duration-300`}>
       <figure>
-        <Image src={`/assets/images/logo-white.png`} alt='Logo' height={100} width={246} />
+        <Image className='lg:w-[auto] w-[180px]' src={`/assets/images/logo-white-1.png`} alt='Logo' height={100} width={246} />
       </figure>
 
       {/* Desktop Nav */}
-      <nav className='bg-[#005057ab] hidden lg:flex gap-[24px] px-[35px] py-[10px] rounded-[30px]'>
+      <nav className='bg-[#005057ab] hidden lg:flex gap-[40px] px-[35px] py-[10px] rounded-[30px]'>
         <li className='list-none text-[#fff] cursor-pointer' onClick={() => scrollToSection('#whoweare')}>
-          Who We Are
+         The ThriveHQ Ecosystem
         </li>
         <li className='list-none text-[#fff] cursor-pointer' onClick={() => scrollToSection('#corevalues')}>
-          Why We Are On This Journey
+         The Heart of Our Mission    
         </li>
         <li className='list-none text-[#fff] cursor-pointer' onClick={() => scrollToSection('#newsletter')}>
           Newsletter
@@ -55,9 +55,7 @@ export default function Header() {
       </nav>
 
       <div className='hidden lg:block'>
-        <button onClick={() => scrollToSection('#contact')} className="bg-[#00A0A6] text-white px-6 py-2 rounded-full hover:bg-[#008085] transition">
-          Contact
-        </button>
+       <Button text={`Contact`}/>
       </div>
 
       {/* Mobile Menu Toggle */}

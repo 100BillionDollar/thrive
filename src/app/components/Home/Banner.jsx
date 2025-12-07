@@ -19,13 +19,13 @@ export default function Banner() {
       sub: 'A place for real people, real stories, and real growth',
     },
     {
-      img: '/assets/images/home/banner-one.jpg',
+      img: '/assets/images/home/banner-two.jpg',
       alt: 'Banner 2',
       heading: 'Discover Authentic Voices',
       sub: 'Join a community that celebrates truth and connection',
     },
     {
-      img: '/assets/images/home/banner-one.jpg',
+      img: '/assets/images/home/banner-three.jpg',
       alt: 'Banner 3',
       heading: 'Grow Together, Every Day',
       sub: 'Real insights, real impact – start your journey now',
@@ -62,7 +62,7 @@ export default function Banner() {
         pagination={{
           clickable: true,
         }}
-        className="w-full h-screen"
+        className="w-full h-[59vh] lg:h-screen"
       >
         {slides.map((slide, idx) => (
           <SwiperSlide key={idx} className='h-full'>
@@ -74,16 +74,16 @@ export default function Banner() {
               className="object-cover w-full h-full"
               priority={idx === 0}
             />
-            <div className="absolute inset-0 bg-black/30" />
-            <div className="absolute inset-0 flex pl-[100px] items-end pb-[180px] justify-center lg:justify-start z-10">
-              <div className="content lg:px-0 px-[15px] w-full lg:w-[32%] text-center lg:text-left">
-                <h1 className="text-[#fff] lg:text-[54px] text-[35px] leading-[1.1] ivy_presto mb-[20px] animate-fadeIn">
+            <div className="absolute inset-0 lg:bg-black/30 bg-black/60" />
+            <div className="absolute inset-0 flex lg:pl-[100px] items-center pt-[40px] lg:pt-0   lg:items-end lg:pb-[140px]  lg:justify-start z-10">
+              <div className="content lg:px-0 px-[15px] w-full  max-w-[82%] lg:max-w-[32%] text-left">
+                <h1 className="text-[#fff] lg:text-[54px]  text-[35px] leading-[1.2] ivy_presto mb-[20px] animate-fadeIn">
                   {slide.heading}
                 </h1>
-                <p className="text-[#fff] lg:text-[26px] lg:max-w-[80%] animate-fadeIn animation-delay-300">
+                <p className="text-[#fff] lg:text-[26px] text-[20px] lg:max-w-[80%] animate-fadeIn animation-delay-300">
                   {slide.sub}
                 </p>
-                <div className="flex flex-wrap gap-[10px] mt-[30px] justify-center lg:justify-start animate-fadeIn animation-delay-600">
+                <div className="flex flex-wrap gap-[10px] mt-[45px] justify-start animate-fadeIn animation-delay-600">
                   <Button text="Join Our Tribe" />
                 </div>
               </div>
