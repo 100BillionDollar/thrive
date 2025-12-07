@@ -9,7 +9,7 @@ export default function Keypoint() {
           <div className="lg:col-span-6">
             <div className="relative rounded-[20px] overflow-hidden shadow-lg">
               <Image
-                src="/assets/images/home/corevalue/key_point_right_img.jpg"
+                src="/assets/images/home/corevalue/key_point_right_img_2.jpg"
                 alt="Mothers supporting each other – building a community of understanding and growth"
                 height={985}
                 width={1920}
