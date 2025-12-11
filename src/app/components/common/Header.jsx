@@ -5,7 +5,7 @@ import { HiMenuAlt3 } from 'react-icons/hi'
 import { IoClose } from 'react-icons/io5'
 import { gsap } from 'gsap'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
-import Button from './Button'
+import Button from './LinkButton'
 gsap.registerPlugin(ScrollToPlugin)
 
 export default function Header() {
@@ -55,7 +55,7 @@ export default function Header() {
       </nav>
 
       <div className='hidden lg:block'>
-       <Button text={`Contact`}/>
+       <Button text={`Contact`} link="mailto:people@themomshq.me" />
       </div>
 
       {/* Mobile Menu Toggle */}
@@ -71,21 +71,21 @@ export default function Header() {
       <div className={`lg:hidden fixed top-0 right-0 w-[80%] h-screen bg-[#fff] z-[98] pt-[90px] px-[30px] transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <nav className='flex flex-col gap-[30px]'>
           <li className='list-none text-[#000] text-[18px] cursor-pointer' onClick={() => scrollToSection('#whoweare')}>
-            Who We Are
+           The ThriveHQ Ecosystem
           </li>
           <li className='list-none text-[#000] text-[18px] cursor-pointer' onClick={() => scrollToSection('#corevalues')}>
-            Why We Are On This Journey
+           The Heart of Our Mission    
           </li>
           <li className='list-none text-[#000] text-[18px] cursor-pointer' onClick={() => scrollToSection('#newsletter')}>
             Newsletter
           </li>
           <div className='mt-[20px]'>
-            <button 
-              onClick={() => scrollToSection('#contact')} 
+            <a href="mailto:people@themomshq.me" 
+              // onClick={() => scrollToSection('#contact')} 
               className="bg-[#D25238] text-white px-6 py-2 rounded-full hover:bg-[#008085] transition w-full text-center"
             >
               Contact
-            </button>
+            </a>
           </div>
         </nav>
       </div>

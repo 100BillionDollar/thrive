@@ -1,13 +1,13 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import Button from '../common/LinkButton';
+import Button from '../common/Button';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectFade, Autoplay, Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
-
+import gsap from 'gsap';
 export default function Banner() {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -32,6 +32,16 @@ export default function Banner() {
     },
   ];
 
+  const scrollToSection = (sectionId) => {
+    gsap.to(window, {
+      duration: 1.2,
+      scrollTo: { y: sectionId, offsetY: 80 }, 
+      ease: "power3.inOut",
+      onComplete: () => {
+        if (isMenuOpen) toggleMenu() 
+      }
+    })
+  }
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -84,7 +94,7 @@ export default function Banner() {
                   {slide.sub}
                 </p>
                 <div className="flex flex-wrap gap-[10px] mt-[45px] justify-start animate-fadeIn animation-delay-600">
-                  <Button text="Join Our Tribe" />
+                  <Button text="Join Our Tribe"  onClick={() => scrollToSection('#newsletter')}/>
                 </div>
               </div>
             </div>

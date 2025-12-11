@@ -28,10 +28,10 @@ export default function WhoweAre() {
       <div className="container-custom">
         <div className="heading">
           <SecondaryHeading customclass={`!text-[#000]`} text={`The ThriveHQ Ecosystem`} />
-          <p className="text-[18px]">
+          {/* <p className="text-[18px]">
             A home for parents, mothers, and humans of all abilities to learn,
             connect, and thrive together.
-          </p>
+          </p> */}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-[30px] mt-[50px]">

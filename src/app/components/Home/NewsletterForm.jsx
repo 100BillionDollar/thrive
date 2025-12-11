@@ -14,11 +14,10 @@ export default function NewsletterForm() {
 
                     {/* Heading */}
                     <div className="heading">
-                         <SecondaryHeading text={`Together, We’re Building a World Where Every Human Is Thriving.`}/>
+                         <SecondaryHeading text={`Together, we’re building a world Where Every Human Thrives.`}/>
                        
                         <p className="text-white text-[18px] opacity-80">
-                            Subscribe for content, conversations, and updates that support
-                            mothers,<br></br> parents, and children of all abilities.
+                           Parenting360 brings trusted advisory, knowledge, compassion, and community to<br></br> guide and support parents through every phase of the parenthood journey.
                         </p>
                     </div>
 
@@ -27,7 +26,7 @@ export default function NewsletterForm() {
                            <input
                             type="email"
                             className="flex-1 lg:mb-0 mb-[20px] bg-transparent text-white placeholder:text-gray-400 placeholder:text-[16px] outline-none"
-                            placeholder="Subscribe for daily updates"
+                            placeholder="Subscribe to our Newsletter"
                             />
 
                             <Button className={`px-[60px]`} text="Join Our Tribe" />
