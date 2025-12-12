@@ -6,7 +6,7 @@ const data = [
     id: 1,
     title: "Parenting360",
     img: "/assets/images/home/whoweare/image_1.jpg",
-    text: "Where every phase of motherhood finds a home your story, your community, your growth.",
+    text: "Parenting360 brings trusted advisory, knowledge, compassion, and community to guide and support parents through every phase of the parenthood journey.",
   },
   {
     id: 2,

@@ -55,7 +55,7 @@ export default function Header() {
       </nav>
 
       <div className='hidden lg:block'>
-       <Button text={`Contact`} link="mailto:people@themomshq.me" />
+       <Button text={`Contact Us`} link="mailto:people@themomshq.me" />
       </div>
 
       {/* Mobile Menu Toggle */}
@@ -84,7 +84,7 @@ export default function Header() {
               // onClick={() => scrollToSection('#contact')} 
               className="bg-[#D25238] text-white px-6 py-2 rounded-full hover:bg-[#008085] transition w-full text-center"
             >
-              Contact
+              Contact Us
             </a>
           </div>
         </nav>

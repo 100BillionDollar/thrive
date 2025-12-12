@@ -28,16 +28,16 @@ export default function Keypoint() {
               We believe every family deserves that kind of space. Every mother deserves to feel understood. Every child deserves to feel seen. And every human deserves to be celebrated for who they are.
             </p>
             <p>
-              Our own journeys — the highs, the doubts, the pressures, and the quiet moments no one talks about — are what shaped this mission. We built this ecosystem so mothers, families, and people of determination can access support without barriers.
+             Our own journeys, the highs, the doubts, the pressures, and the quiet moments no one talks about, are what shaped this mission. <strong className='font-medium'>We built this ecosystem so mothers, families, and people of determination can access support without barriers, so every story is met with connection, compassion, and a pathway to growth.</strong>
+
             </p>
-            <p>
-              So every story is met with connection, compassion, and a pathway to growth.
-            </p>
+          
             <p className="text-xl text-[#fff] ">
               This is why we are building ThriveHQ.
             </p>
-            <p className="text-lg text-[#fff] font-medium">
-              We are building an ecosystem where growth is accessible, inclusion is normal, and every human is empowered to thrive.
+            <p className="text-lg text-[#fff]">
+<strong className='font-medium'>  We are building an evolving ecosystem where growth is accessible, inclusion is normal, and every human is empowered to thrive.</strong>
+
             </p>
           </div>
         </div>

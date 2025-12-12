@@ -17,8 +17,7 @@ export default function NewsletterForm() {
                          <SecondaryHeading text={`Together, we’re building a world Where Every Human Thrives.`}/>
                        
                         <p className="text-white text-[18px] opacity-80">
-                           Parenting360 brings trusted advisory, knowledge, compassion, and community to<br></br> guide and support parents through every phase of the parenthood journey.
-                        </p>
+Subscribe for content, conversations, and updates that support<br></br> parents, mothers, children, and people of different abilities.                        </p>
                     </div>
 
                     <form className="pt-[40px]">
