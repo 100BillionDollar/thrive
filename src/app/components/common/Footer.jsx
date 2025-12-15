@@ -10,17 +10,21 @@ export default function Footer() {
         <div className='bg-[#fff]'>
             <div className='container-custom'>
                 <div className=' py-[30px] flex flex-col  flex-wrap items-center justify-center'>
-                
+                <Link href="/">  
                 <Image src={`/assets/images/logo-dark-1.png`} alt='' height={422} width={300} />
+                 </Link>
                     <ul className='flex items-center mt-[25px] gap-5'>
                         <li>
-                            <Link className='h-[45px] w-[45px] flex items-center justify-center rounded-[50%] bg-[#1B1B1B] block text-[#fff]' href={'#'}>
-                                <FaFacebookF  className='h-6 w-6' />
+                            <Link className='h-[75px] w-[75px] flex items-center justify-center rounded-[50%] bg-[#1B1B1B] block text-[#fff]' href={'https://www.instagram.com/parenting360hq/'} target='_blank'>
+                                {/* <FaFacebookF  className='h-6 w-6' /> */}
+                                <Image class="rounded-[50%]" src={`/assets/images/Parenting360.jpg`} alt='Parenting360' height={150} width={150}/>
                             </Link>
                         </li>
                         <li>
-                            <Link className='h-[45px] w-[45px] flex items-center justify-center rounded-[50%] bg-[#1B1B1B] block text-[#fff]' href={'#'}>
-                                <FaInstagram className='h-8 w-8' />
+                            <Link className='h-[75px] w-[75px] flex items-center justify-center rounded-[50%] bg-[#1B1B1B] block text-[#fff]' href={'https://www.instagram.com/momshq/'} target='_blank'>
+                                {/* <FaInstagram className='h-8 w-8' /> */}
+                            <Image class="rounded-[50%]" src={`/assets/images/MomsHQ.jpg`} alt='MomsHQ' height={150} width={150}/>
+
                             </Link>
                         </li>
                         
@@ -29,12 +33,12 @@ export default function Footer() {
                     
                     <ul className=' flex items-center my-[35px] gap-[20px] '>
                         <li >
-                            <Link className='' href={'#'}>
+                            <Link className='' href={'privacy-policy'} target='_blank'>
                                 Privacy Policy
                             </Link>
                         </li>
                         <li >
-                            <Link className='' href={'#'}>
+                            <Link className='' href={'terms-and-conditions'} target='_blank'>
                                 Terms of Use
 
                             </Link>

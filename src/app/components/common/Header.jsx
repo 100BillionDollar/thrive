@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { HiMenuAlt3 } from 'react-icons/hi'
 import { IoClose } from 'react-icons/io5'
 import { gsap } from 'gsap'
@@ -38,7 +39,9 @@ export default function Header() {
   return (
     <header className={`${isScrolled ? 'fixed top-0 bg-[#005057] shadow-lg animate-slideDown' : 'absolute'} z-[99] px-[15px] py-[15px] lg:px-[35px] flex justify-between items-center w-full transition-all duration-300`}>
       <figure>
+        <Link href="/">
         <Image className='lg:w-[auto] w-[180px]' src={`/assets/images/logo-white-1.png`} alt='Logo' height={100} width={246} />
+        </Link>
       </figure>
 
       {/* Desktop Nav */}
