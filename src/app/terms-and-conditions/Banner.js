@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Banner() {
   return (
-     <Image src={`/assets/images/termsofuse/terms_use_updated_banner.jpg`} alt='' className='w-full'  width={1920} height={550} />
+     <Image src={`/assets/images/termsofuse/terms_condition.jpg`} alt='' className='w-full'  width={1920} height={550} />
 
   )
 }
