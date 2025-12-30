@@ -203,7 +203,14 @@ function updateContent($dashboard) {
     switch ($type) {
         case 'who_we_are':
             $image_path = $input['image_path'] ?? null;
-            $result = $dashboard->updateWhoWeAre($title, $content, $image_path);
+            $status = $input['status'] ?? 'active';
+            $result = $dashboard->updateWhoWeAre($title, $content, $image_path, $status);
+            break;
+            
+        case 'heart_of_mission':
+            $image_path = $input['image_path'] ?? null;
+            $status = $input['status'] ?? 'active';
+            $result = $dashboard->updateHeartOfMission($title, $content, $image_path, $status);
             break;
             
         case 'banner':
@@ -218,10 +225,11 @@ function updateContent($dashboard) {
             
         case 'ecosystem':
             $icon = $input['icon'] ?? 'fa-globe';
+            $category = $input['category'] ?? 'platform';
             if ($id) {
-                $result = $dashboard->updateEcosystemItem($id, $title, $content, $icon);
+                $result = $dashboard->updateEcosystemItem($id, $title, $content, $icon, $category);
             } else {
-                $result = $dashboard->addEcosystemItem($title, $content, $icon);
+                $result = $dashboard->addEcosystemItem($title, $content, $icon, $category);
             }
             break;
             

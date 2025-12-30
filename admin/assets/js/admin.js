@@ -430,10 +430,29 @@ function editWhoWeAre() {
     document.getElementById('editId').value = '1';
     document.getElementById('editTitle').value = title;
     document.getElementById('editContent').value = content;
+    document.getElementById('editStatus').value = 'active'; // Default to active
     
     // Show Who We Are fields
     hideAllFormFields();
     document.getElementById('whoWeAreFields').style.display = 'block';
+    
+    openModal();
+}
+
+function editHeartOfMission() {
+    const title = document.getElementById('heartOfMissionTitle').textContent;
+    const content = document.getElementById('heartOfMissionContent').textContent;
+    
+    document.getElementById('modalTitle').textContent = 'Edit Heart of Mission Section';
+    document.getElementById('editType').value = 'heart_of_mission';
+    document.getElementById('editId').value = '1';
+    document.getElementById('editTitle').value = title;
+    document.getElementById('editContent').value = content;
+    document.getElementById('editStatus').value = 'active'; // Default to active
+    
+    // Show Heart of Mission fields
+    hideAllFormFields();
+    document.getElementById('heartOfMissionFields').style.display = 'block';
     
     openModal();
 }
@@ -515,6 +534,7 @@ function addEcosystemItem() {
     document.getElementById('editId').value = '';
     document.getElementById('editTitle').value = '';
     document.getElementById('editContent').value = '';
+    document.getElementById('editCategory').value = 'platform';
     document.getElementById('editIcon').value = 'fa-globe';
     
     // Show Ecosystem fields
@@ -524,12 +544,13 @@ function addEcosystemItem() {
     openModal();
 }
 
-function editEcosystemItem(id, name, description, icon) {
+function editEcosystemItem(id, name, description, icon, category) {
     document.getElementById('modalTitle').textContent = 'Edit Ecosystem Item';
     document.getElementById('editType').value = 'ecosystem';
     document.getElementById('editId').value = id;
     document.getElementById('editTitle').value = name;
     document.getElementById('editContent').value = description;
+    document.getElementById('editCategory').value = category || 'platform';
     document.getElementById('editIcon').value = icon;
     
     // Show Ecosystem fields
@@ -563,6 +584,7 @@ async function deleteEcosystemItem(id) {
 // Helper function to hide all form fields
 function hideAllFormFields() {
     document.getElementById('whoWeAreFields').style.display = 'none';
+    document.getElementById('heartOfMissionFields').style.display = 'none';
     document.getElementById('bannerFields').style.display = 'none';
     document.getElementById('ecosystemFields').style.display = 'none';
 }
@@ -583,9 +605,11 @@ async function saveContentChanges() {
         };
         
         // Add type-specific fields
-        if (editType === 'who_we_are') {
+        if (editType === 'who_we_are' || editType === 'heart_of_mission') {
             const image_path = document.getElementById('editImage').value;
+            const status = document.getElementById('editStatus').value;
             if (image_path) body.image_path = image_path;
+            if (status) body.status = status;
         } else if (editType === 'banner') {
             const image_path = document.getElementById('editImage').value;
             const position = document.getElementById('editPosition').value;
@@ -593,7 +617,9 @@ async function saveContentChanges() {
             if (position) body.position = position;
         } else if (editType === 'ecosystem') {
             const icon = document.getElementById('editIcon').value;
+            const category = document.getElementById('editCategory').value;
             if (icon) body.icon = icon;
+            if (category) body.category = category;
         }
         
         const response = await fetch(url, {

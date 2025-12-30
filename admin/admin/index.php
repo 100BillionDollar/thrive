@@ -24,7 +24,8 @@ $analytics = $dashboard->getAnalytics();
     <link rel="stylesheet" href="../assets/css/admin.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css">
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 <body>
     <div class="admin-container">
         <!-- Sidebar -->
@@ -289,6 +290,10 @@ $analytics = $dashboard->getAnalytics();
                         <button class="btn btn-primary" onclick="addBanner()">Add New Banner</button>
                     </div>
                     <div class="card-content">
+                        <!-- Image Upload Dropzone -->
+                        <div class="mb-4">
+                            <form action="upload.php" class="dropzone" id="bannerDropzone"></form>
+                        </div>
                         <div class="banner-grid" id="bannerGrid">
                             <?php foreach ($data['banners'] as $banner): ?>
                                 <div class="banner-item-admin">
@@ -488,8 +493,19 @@ $analytics = $dashboard->getAnalytics();
                             <textarea id="editContent" class="form-control" rows="4"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="editIcon">Icon (FontAwesome class)</label>
-                            <input type="text" id="editIcon" class="form-control" placeholder="fa-baby">
+                            <label for="editIcon">Icon</label>
+                            <select id="editIcon" class="form-control">
+                                <option value="fa-baby">Baby (fa-baby)</option>
+                                <option value="fa-heart">Heart (fa-heart)</option>
+                                <option value="fa-lightbulb">Lightbulb (fa-lightbulb)</option>
+                                <option value="fa-users">Users (fa-users)</option>
+                                <option value="fa-home">Home (fa-home)</option>
+                                <option value="fa-graduation-cap">Graduation Cap (fa-graduation-cap)</option>
+                                <option value="fa-briefcase">Briefcase (fa-briefcase)</option>
+                                <option value="fa-handshake">Handshake (fa-handshake)</option>
+                                <option value="fa-star">Star (fa-star)</option>
+                                <option value="fa-shield-alt">Shield (fa-shield-alt)</option>
+                            </select>
                         </div>
                     </div>
                     
@@ -505,5 +521,24 @@ $analytics = $dashboard->getAnalytics();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/admin.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Initialize Dropzone for banner uploads
+        Dropzone.options.bannerDropzone = {
+            maxFilesize: 5, // MB
+            acceptedFiles: 'image/*',
+            addRemoveLinks: true,
+            dictDefaultMessage: 'Drop images here or click to upload',
+            dictRemoveFile: 'Remove file',
+            init: function() {
+                this.on('success', function(file, response) {
+                    // Refresh the banner grid after successful upload
+                    location.reload();
+                });
+                this.on('error', function(file, response) {
+                    alert('Upload failed: ' + response);
+                });
+            }
+        };
+    </script>
 </body>
 </html>

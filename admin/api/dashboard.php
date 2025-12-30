@@ -18,6 +18,9 @@ class Dashboard {
         // Get Who We Are data
         $data['who_we_are'] = $this->getWhoWeAreData();
         
+        // Get Heart of Mission data
+        $data['heart_of_mission'] = $this->getHeartOfMissionData();
+        
         // Get banner data
         $data['banners'] = $this->getBannerData();
         
@@ -49,6 +52,21 @@ class Dashboard {
             'title' => 'Building Tomorrow\'s Solutions Today',
             'content' => 'We are a team of passionate professionals dedicated to creating innovative solutions that transform businesses and improve lives.',
             'image_path' => 'assets/images/who-we-are.jpg'
+        ];
+    }
+
+    private function getHeartOfMissionData() {
+        $sql = "SELECT title, content, image_path FROM heart_of_mission WHERE status = 'active' LIMIT 1";
+        $result = $this->conn->query($sql);
+        
+        if ($result && $result->num_rows > 0) {
+            return $result->fetch_assoc();
+        }
+        
+        return [
+            'title' => 'The Heart of Our Mission',
+            'content' => 'At the core of everything we do is a deep commitment to empowering families and communities.',
+            'image_path' => 'assets/images/heart-of-mission.jpg'
         ];
     }
 
@@ -130,10 +148,10 @@ class Dashboard {
         }
     }
 
-    public function updateWhoWeAre($title, $content, $image_path = null) {
-        $sql = "UPDATE who_we_are SET title = ?, content = ?";
-        $params = "ss";
-        $bind_params = [$title, $content];
+    public function updateWhoWeAre($title, $content, $image_path = null, $status = 'active') {
+        $sql = "UPDATE who_we_are SET title = ?, content = ?, status = ?";
+        $params = "sss";
+        $bind_params = [$title, $content, $status];
         
         if ($image_path) {
             $sql .= ", image_path = ?";
@@ -152,6 +170,37 @@ class Dashboard {
             $this->notificationManager->createNotification(
                 "Content Updated", 
                 "Who We Are section has been updated.", 
+                "success"
+            );
+            
+            return ['success' => true, 'message' => 'Updated successfully!'];
+        } else {
+            return ['success' => false, 'message' => 'Update failed!'];
+        }
+    }
+
+    public function updateHeartOfMission($title, $content, $image_path = null, $status = 'active') {
+        $sql = "UPDATE heart_of_mission SET title = ?, content = ?, status = ?";
+        $params = "sss";
+        $bind_params = [$title, $content, $status];
+        
+        if ($image_path) {
+            $sql .= ", image_path = ?";
+            $params .= "s";
+            $bind_params[] = $image_path;
+        }
+        
+        $sql .= ", updated_at = NOW() WHERE id = 1";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param($params, ...$bind_params);
+        
+        if ($stmt->execute()) {
+            $this->activityManager->logActivity("Heart of Mission section updated", "Content was modified in Heart of Mission section", "admin");
+            
+            $this->notificationManager->createNotification(
+                "Content Updated", 
+                "Heart of Mission section has been updated.", 
                 "success"
             );
             
@@ -223,10 +272,10 @@ class Dashboard {
     }
 
     // Ecosystem management methods
-    public function addEcosystemItem($name, $description, $icon) {
-        $sql = "INSERT INTO ecosystem (name, description, icon, status) VALUES (?, ?, ?, 'active')";
+    public function addEcosystemItem($name, $description, $icon, $category = 'platform') {
+        $sql = "INSERT INTO ecosystem (name, description, icon, category, status) VALUES (?, ?, ?, ?, 'active')";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sss", $name, $description, $icon);
+        $stmt->bind_param("ssss", $name, $description, $icon, $category);
         
         if ($stmt->execute()) {
             $this->activityManager->logActivity("New ecosystem item added: " . $name, "Ecosystem item was added", "admin");
@@ -236,10 +285,10 @@ class Dashboard {
         }
     }
 
-    public function updateEcosystemItem($id, $name, $description, $icon) {
-        $sql = "UPDATE ecosystem SET name = ?, description = ?, icon = ?, updated_at = NOW() WHERE id = ?";
+    public function updateEcosystemItem($id, $name, $description, $icon, $category = 'platform') {
+        $sql = "UPDATE ecosystem SET name = ?, description = ?, icon = ?, category = ?, updated_at = NOW() WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sssi", $name, $description, $icon, $id);
+        $stmt->bind_param("sssss", $name, $description, $icon, $category, $id);
         
         if ($stmt->execute()) {
             $this->activityManager->logActivity("Ecosystem item updated: " . $name, "Ecosystem item was modified", "admin");

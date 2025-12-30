@@ -17,6 +17,7 @@ $whoWeAreSQL = "CREATE TABLE IF NOT EXISTS who_we_are (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
+    image_path VARCHAR(500),
     status ENUM('active', 'inactive') DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -26,6 +27,23 @@ if ($conn->query($whoWeAreSQL) === TRUE) {
     echo "Table 'who_we_are' created successfully<br>";
 } else {
     echo "Error creating table 'who_we_are': " . $conn->error . "<br>";
+}
+
+// Create heart_of_mission table
+$heartOfMissionSQL = "CREATE TABLE IF NOT EXISTS heart_of_mission (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    image_path VARCHAR(500),
+    status ENUM('active', 'inactive') DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)";
+
+if ($conn->query($heartOfMissionSQL) === TRUE) {
+    echo "Table 'heart_of_mission' created successfully<br>";
+} else {
+    echo "Error creating table 'heart_of_mission': " . $conn->error . "<br>";
 }
 
 // Create newsletter_subscribers table
@@ -109,6 +127,7 @@ $ecosystemSQL = "CREATE TABLE IF NOT EXISTS ecosystem (
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     icon VARCHAR(100) NOT NULL,
+    category VARCHAR(50) DEFAULT 'platform',
     status ENUM('active', 'inactive') DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -118,6 +137,15 @@ if ($conn->query($ecosystemSQL) === TRUE) {
     echo "Table 'ecosystem' created successfully<br>";
 } else {
     echo "Error creating table 'ecosystem': " . $conn->error . "<br>";
+}
+
+// Add category column to ecosystem table if it doesn't exist
+$alterEcosystemSQL = "ALTER TABLE ecosystem ADD COLUMN category VARCHAR(50) DEFAULT 'platform' AFTER icon";
+$result = $conn->query($alterEcosystemSQL);
+if ($result === TRUE) {
+    echo "Column 'category' added to 'ecosystem' table<br>";
+} else {
+    echo "Note: Column 'category' may already exist in 'ecosystem' table<br>";
 }
 
 // Update who_we_are table to include image
@@ -142,6 +170,27 @@ if ($result && $result->fetch_assoc()['count'] == 0) {
     
     if ($stmt->execute()) {
         echo "Default data inserted into 'who_we_are' table<br>";
+    } else {
+        echo "Error inserting default data: " . $stmt->error . "<br>";
+    }
+    
+    $stmt->close();
+}
+
+// Insert default data for heart_of_mission if table is empty
+$checkMissionDataSQL = "SELECT COUNT(*) as count FROM heart_of_mission";
+$result = $conn->query($checkMissionDataSQL);
+if ($result && $result->fetch_assoc()['count'] == 0) {
+    $insertMissionSQL = "INSERT INTO heart_of_mission (title, content, status) VALUES (?, ?, 'active')";
+    $stmt = $conn->prepare($insertMissionSQL);
+    
+    $title = "The Heart of Our Mission";
+    $content = "At the core of everything we do is a deep commitment to empowering families and communities. Our mission is to provide innovative solutions that make a real difference in people's lives, fostering growth, connection, and well-being for generations to come.";
+    
+    $stmt->bind_param("ss", $title, $content);
+    
+    if ($stmt->execute()) {
+        echo "Default data inserted into 'heart_of_mission' table<br>";
     } else {
         echo "Error inserting default data: " . $stmt->error . "<br>";
     }
@@ -192,24 +241,27 @@ if ($result && $result->fetch_assoc()['count'] == 0) {
         [
             'name' => 'Parenting360',
             'description' => 'Comprehensive parenting resources, expert advice, and support for every stage of your parenting journey.',
-            'icon' => 'fa-baby'
+            'icon' => 'fa-baby',
+            'category' => 'platform'
         ],
         [
             'name' => 'MomsHQ',
             'description' => 'Empowering mothers with knowledge, community support, and wellness resources for modern motherhood.',
-            'icon' => 'fa-heart'
+            'icon' => 'fa-heart',
+            'category' => 'community'
         ],
         [
             'name' => 'Diyaa',
             'description' => 'Innovative solutions and tools designed to make family life easier, more organized, and more joyful.',
-            'icon' => 'fa-lightbulb'
+            'icon' => 'fa-lightbulb',
+            'category' => 'tool'
         ]
     ];
     
     foreach ($ecosystemItems as $item) {
-        $insertEcosystemSQL = "INSERT INTO ecosystem (name, description, icon, status) VALUES (?, ?, ?, 'active')";
+        $insertEcosystemSQL = "INSERT INTO ecosystem (name, description, icon, category, status) VALUES (?, ?, ?, ?, 'active')";
         $stmt = $conn->prepare($insertEcosystemSQL);
-        $stmt->bind_param("sss", $item['name'], $item['description'], $item['icon']);
+        $stmt->bind_param("ssss", $item['name'], $item['description'], $item['icon'], $item['category']);
         $stmt->execute();
         $stmt->close();
     }
