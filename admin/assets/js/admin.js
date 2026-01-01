@@ -15,22 +15,35 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize notifications
     initializeNotifications();
+    
+    // Initialize date filter
+    const dateFilter = document.getElementById('dateFilter');
+    if (dateFilter) {
+        dateFilter.addEventListener('change', function() {
+            updateCharts();
+        });
+    }
 });
 
 // Initialize notifications
 function initializeNotifications() {
     notificationsDropdown = document.getElementById('notificationsDropdown');
     
-    // Close notifications when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.notification-btn') && !e.target.closest('.notifications-dropdown')) {
-            closeNotifications();
-        }
-    });
+    // Only add event listeners if notifications dropdown exists
+    if (notificationsDropdown) {
+        // Close notifications when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.notification-btn') && !e.target.closest('.notifications-dropdown')) {
+                closeNotifications();
+            }
+        });
+    }
 }
 
 // Toggle notifications dropdown
 function toggleNotifications() {
+    if (!notificationsDropdown) return;
+    
     if (notificationsDropdown.classList.contains('show')) {
         closeNotifications();
     } else {
@@ -40,11 +53,15 @@ function toggleNotifications() {
 
 // Open notifications dropdown
 function openNotifications() {
+    if (!notificationsDropdown) return;
+    
     notificationsDropdown.classList.add('show');
 }
 
 // Close notifications dropdown
 function closeNotifications() {
+    if (!notificationsDropdown) return;
+    
     notificationsDropdown.classList.remove('show');
 }
 
@@ -297,7 +314,9 @@ function updateDateTime() {
 // Newsletter Management
 async function loadSubscribers() {
     try {
-        const response = await fetch('../api/admin.php?action=get_subscribers');
+        const response = await fetch('../api/admin.php?action=get_subscribers', {
+            credentials: 'same-origin'
+        });
         const data = await response.json();
         
         if (data.success) {
@@ -377,7 +396,8 @@ async function deleteSubscriber(id) {
     if (confirm('Are you sure you want to delete this subscriber?')) {
         try {
             const response = await fetch(`../api/admin.php?action=delete_subscriber&id=${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                credentials: 'same-origin'
             });
             const data = await response.json();
             
@@ -395,15 +415,12 @@ async function deleteSubscriber(id) {
     }
 }
 
-// Export subscribers
 function exportSubscribers() {
-    // Create CSV content
     let csvContent = "ID,Email,Status,Created At\n";
     subscribersData.forEach(subscriber => {
         csvContent += `${subscriber.id},${subscriber.email},${subscriber.status},${subscriber.created_at}\n`;
     });
     
-    // Download CSV
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -417,8 +434,11 @@ function exportSubscribers() {
 
 // Content Management
 function loadContentData() {
-    // Content is already loaded from PHP
     console.log('Content data loaded');
+}
+
+function loadEcosystemItems() {
+    console.log('Ecosystem items loaded');
 }
 
 function editWhoWeAre() {
@@ -430,14 +450,13 @@ function editWhoWeAre() {
     document.getElementById('editId').value = '1';
     document.getElementById('editTitle').value = title;
     document.getElementById('editContent').value = content;
-    document.getElementById('editStatus').value = 'active'; // Default to active
-    
-    // Show Who We Are fields
+    document.getElementById('editStatus').value = 'active';
     hideAllFormFields();
     document.getElementById('whoWeAreFields').style.display = 'block';
     
     openModal();
 }
+
 
 function editHeartOfMission() {
     const title = document.getElementById('heartOfMissionTitle').textContent;
@@ -467,11 +486,18 @@ function addBanner() {
     document.getElementById('editImage').value = '';
     document.getElementById('editPosition').value = '1';
     
+    // Hide current image preview for new banners
+    const currentImagePreview = document.getElementById('currentImagePreview');
+    if (currentImagePreview) {
+        currentImagePreview.style.display = 'none';
+    }
+    
     // Show Banner fields
     hideAllFormFields();
-    document.getElementById('bannerFields').style.display = 'block';
+    // document.getElementById('bannerFields').style.display = 'block';
     
     openModal();
+    setTimeout(() => initializeBannerDropzone(), 100);
 }
 
 function editBanner(id) {
@@ -498,19 +524,38 @@ function editBanner(id) {
         document.getElementById('editImage').value = bannerData.image_path;
         document.getElementById('editPosition').value = '1';
         
+        // Show current image preview
+        const currentImagePreview = document.getElementById('currentImagePreview');
+        const currentImage = document.getElementById('currentImage');
+        if (currentImagePreview && currentImage) {
+            currentImage.src = '../' + bannerData.image_path;
+            currentImagePreview.style.display = 'block';
+        }
+        
         // Show Banner fields
         hideAllFormFields();
-        document.getElementById('bannerFields').style.display = 'block';
+        // document.getElementById('bannerFields').style.display = 'block';
         
         openModal();
+        
+        // Initialize dropzone after modal is open
+        setTimeout(() => {
+            initializeBannerDropzone();
+        }, 200);
     }
 }
+
+
+
+
+
 
 async function deleteBanner(id) {
     if (confirm('Are you sure you want to delete this banner?')) {
         try {
             const response = await fetch(`../api/admin.php?action=delete_banner&id=${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                credentials: 'same-origin'
             });
             const data = await response.json();
             
@@ -525,6 +570,65 @@ async function deleteBanner(id) {
             showNotification('Error deleting banner', 'error');
         }
     }
+}
+
+// Initialize banner dropzone in modal
+function initializeBannerDropzone() {
+    // Remove existing dropzone instance if it exists
+    if (window.bannerModalDropzone) {
+        window.bannerModalDropzone.destroy();
+    }
+    
+    // Initialize new dropzone
+    window.bannerModalDropzone = new Dropzone('#bannerModalDropzone', {
+        maxFilesize: 5, // MB
+        acceptedFiles: 'image/*',
+        addRemoveLinks: true,
+        dictDefaultMessage: 'Drop new image here or click to upload (replaces current image)',
+        dictRemoveFile: 'Remove file',
+        maxFiles: 1,
+        paramName: 'file',
+        params: {
+            action: 'upload_only'
+        },
+        init: function() {
+            this.on('success', function(file, response) {
+                try {
+                    const data = typeof response === 'string' ? JSON.parse(response) : response;
+                    document.getElementById('editImage').value = data.image_path;
+                    
+                    const currentImagePreview = document.getElementById('currentImagePreview');
+                    if (currentImagePreview) {
+                        currentImagePreview.style.display = 'none';
+                    }
+                } catch (e) {
+                    console.error('Error parsing response:', e);
+                }
+            });
+            
+            this.on('removedfile', function(file) {
+                // Clear hidden input if file is removed
+                if (this.files.length === 0) {
+                    document.getElementById('editImage').value = '';
+                    
+                    // Show current image preview again if no new file
+                    const currentImagePreview = document.getElementById('currentImagePreview');
+                    if (currentImagePreview && document.getElementById('editId').value) {
+                        currentImagePreview.style.display = 'block';
+                    }
+                }
+            });
+            
+            this.on('error', function(file, response) {
+                try {
+                    const data = typeof response === 'string' ? JSON.parse(response) : response;
+                    showNotification('Upload failed: ' + (data.message || response), 'error');
+                } catch (e) {
+                    showNotification('Upload failed: ' + response, 'error');
+                }
+            });
+        }
+    });
 }
 
 // Ecosystem Management
@@ -564,7 +668,8 @@ async function deleteEcosystemItem(id) {
     if (confirm('Are you sure you want to delete this ecosystem item?')) {
         try {
             const response = await fetch(`../api/admin.php?action=delete_ecosystem&id=${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                credentials: 'same-origin'
             });
             const data = await response.json();
             
@@ -583,10 +688,30 @@ async function deleteEcosystemItem(id) {
 
 // Helper function to hide all form fields
 function hideAllFormFields() {
-    document.getElementById('whoWeAreFields').style.display = 'none';
-    document.getElementById('heartOfMissionFields').style.display = 'none';
-    document.getElementById('bannerFields').style.display = 'none';
-    document.getElementById('ecosystemFields').style.display = 'none';
+    const fields = ['whoWeAreFields', 'heartOfMissionFields', 'bannerFields', 'ecosystemFields'];
+    fields.forEach(fieldId => {
+        const element = document.getElementById(fieldId);
+        if (element) {
+            element.style.display = 'none';
+        }
+    });
+}
+
+// Change content type in modal
+function changeContentType() {
+    const contentType = document.getElementById('contentTypeSelect').value;
+    hideAllFormFields();
+    
+    if (contentType) {
+        document.getElementById('editType').value = contentType;
+        const fieldId = contentType === 'who_we_are' ? 'whoWeAreFields' : 
+                       contentType === 'heart_of_mission' ? 'heartOfMissionFields' : 
+                       contentType === 'banner' ? 'bannerFields' : '';
+        
+        if (fieldId && document.getElementById(fieldId)) {
+            document.getElementById(fieldId).style.display = 'block';
+        }
+    }
 }
 
 async function saveContentChanges() {
@@ -627,6 +752,7 @@ async function saveContentChanges() {
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: 'same-origin',
             body: JSON.stringify(body)
         });
         
@@ -647,16 +773,16 @@ async function saveContentChanges() {
 
 // Charts
 function initializeCharts() {
-    // Visitor Chart
-    const visitorCtx = document.getElementById('visitorChart');
-    if (visitorCtx) {
-        new Chart(visitorCtx, {
+    // Subscriber Growth Chart
+    const subscriberCtx = document.getElementById('subscriberChart');
+    if (subscriberCtx) {
+        new Chart(subscriberCtx, {
             type: 'line',
             data: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                 datasets: [{
-                    label: 'Visitors',
-                    data: [120, 150, 180, 200, 170, 220, 250],
+                    label: 'Subscribers',
+                    data: [120, 150, 180, 200, 170, 220],
                     borderColor: '#667eea',
                     backgroundColor: 'rgba(102, 126, 234, 0.1)',
                     tension: 0.4
@@ -679,18 +805,18 @@ function initializeCharts() {
         });
     }
     
-    // Newsletter Chart
-    const newsletterCtx = document.getElementById('newsletterChart');
-    if (newsletterCtx) {
-        new Chart(newsletterCtx, {
+    // Newsletter Performance Chart
+    const performanceCtx = document.getElementById('performanceChart');
+    if (performanceCtx) {
+        new Chart(performanceCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Active', 'Inactive', 'Unsubscribed'],
+                labels: ['Opened', 'Clicked', 'Bounced'],
                 datasets: [{
-                    data: [75, 20, 5],
+                    data: [68, 24, 8],
                     backgroundColor: [
                         '#10b981',
-                        '#f59e0b',
+                        '#667eea',
                         '#ef4444'
                     ]
                 }]
@@ -732,6 +858,12 @@ function closeModal() {
     if (modal) {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
+        
+        // Clean up dropzone instance
+        if (window.bannerModalDropzone) {
+            window.bannerModalDropzone.destroy();
+            window.bannerModalDropzone = null;
+        }
     }
 }
 
@@ -783,6 +915,10 @@ function formatDate(dateString) {
         month: 'short',
         day: 'numeric'
     });
+}
+
+const saveBanner=()=>{
+    showNotification('Banner saved successfully', 'success');
 }
 
 // Add notification styles

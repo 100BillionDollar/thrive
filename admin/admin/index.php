@@ -1,7 +1,5 @@
 <?php
 session_start();
-require_once '../config/database.php';
-require_once '../api/dashboard.php';
 
 // Check if admin is logged in
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
@@ -9,10 +7,9 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     exit;
 }
 
-// Get dashboard data
-$dashboard = new Dashboard($conn);
-$data = $dashboard->getDashboardData();
-$analytics = $dashboard->getAnalytics();
+// Redirect to dashboard
+header('Location: dashboard.php');
+exit;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -364,7 +361,7 @@ $analytics = $dashboard->getAnalytics();
                                         <h4><?php echo htmlspecialchars($item['name']); ?></h4>
                                         <p><?php echo htmlspecialchars($item['description']); ?></p>
                                         <div class="ecosystem-actions">
-                                            <button class="btn btn-sm btn-outline" onclick="editEcosystemItem(<?php echo $item['id']; ?>, '<?php echo htmlspecialchars($item['name']); ?>', '<?php echo htmlspecialchars($item['description']); ?>', '<?php echo htmlspecialchars($item['icon']); ?>')">Edit</button>
+                                            <button class="btn btn-sm btn-outline" onclick="editEcosystemItem(<?php echo $item['id']; ?>, '<?php echo htmlspecialchars($item['name']); ?>', '<?php echo htmlspecialchars($item['description']); ?>', '<?php echo htmlspecialchars($item['icon']); ?>', '<?php echo htmlspecialchars($item['category']); ?>')">Edit</button>
                                             <button class="btn btn-sm btn-danger" onclick="deleteEcosystemItem(<?php echo $item['id']; ?>)">Delete</button>
                                         </div>
                                     </div>
@@ -462,6 +459,29 @@ $analytics = $dashboard->getAnalytics();
                         </div>
                     </div>
                     
+                    <!-- Heart of Mission Fields -->
+                    <div id="heartOfMissionFields" class="form-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="editTitle">Title</label>
+                            <input type="text" id="editTitle" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="editContent">Content</label>
+                            <textarea id="editContent" class="form-control" rows="6"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editImage">Image Path</label>
+                            <input type="text" id="editImage" class="form-control" placeholder="assets/images/heart-of-mission.jpg">
+                        </div>
+                        <div class="form-group">
+                            <label for="editStatus">Status</label>
+                            <select id="editStatus" class="form-control">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                    
                     <!-- Banner Fields -->
                     <div id="bannerFields" class="form-fields" style="display: none;">
                         <div class="form-group">
@@ -473,8 +493,9 @@ $analytics = $dashboard->getAnalytics();
                             <textarea id="editContent" class="form-control" rows="4"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="editImage">Image Path</label>
-                            <input type="text" id="editImage" class="form-control" placeholder="assets/images/banner1.jpg">
+                            <label>Image</label>
+                            <form action="upload.php" class="dropzone" id="bannerModalDropzone"></form>
+                            <input type="hidden" id="editImage" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="editPosition">Position</label>
@@ -507,6 +528,15 @@ $analytics = $dashboard->getAnalytics();
                                 <option value="fa-shield-alt">Shield (fa-shield-alt)</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="editCategory">Category</label>
+                            <select id="editCategory" class="form-control">
+                                <option value="platform">Platform</option>
+                                <option value="service">Service</option>
+                                <option value="resource">Resource</option>
+                                <option value="community">Community</option>
+                            </select>
+                        </div>
                     </div>
                     
                     <div class="modal-actions">
@@ -531,11 +561,30 @@ $analytics = $dashboard->getAnalytics();
             dictRemoveFile: 'Remove file',
             init: function() {
                 this.on('success', function(file, response) {
-                    // Refresh the banner grid after successful upload
-                    location.reload();
+                    try {
+                        const data = typeof response === 'string' ? JSON.parse(response) : response;
+                        if (data.success) {
+                            // Refresh the banner grid after successful upload
+                            location.reload();
+                        } else {
+                            alert('Upload failed: ' + (data.message || response));
+                        }
+                    } catch (e) {
+                        // Fallback for old response format
+                        if (response === 'Upload successful') {
+                            location.reload();
+                        } else {
+                            alert('Upload failed: ' + response);
+                        }
+                    }
                 });
                 this.on('error', function(file, response) {
-                    alert('Upload failed: ' + response);
+                    try {
+                        const data = typeof response === 'string' ? JSON.parse(response) : response;
+                        alert('Upload failed: ' + (data.message || response));
+                    } catch (e) {
+                        alert('Upload failed: ' + response);
+                    }
                 });
             }
         };

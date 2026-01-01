@@ -140,20 +140,31 @@ if ($conn->query($ecosystemSQL) === TRUE) {
 }
 
 // Add category column to ecosystem table if it doesn't exist
-$alterEcosystemSQL = "ALTER TABLE ecosystem ADD COLUMN category VARCHAR(50) DEFAULT 'platform' AFTER icon";
-$result = $conn->query($alterEcosystemSQL);
-if ($result === TRUE) {
-    echo "Column 'category' added to 'ecosystem' table<br>";
+$checkColumnSQL = "SHOW COLUMNS FROM ecosystem LIKE 'category'";
+$result = $conn->query($checkColumnSQL);
+if ($result->num_rows == 0) {
+    $alterEcosystemSQL = "ALTER TABLE ecosystem ADD COLUMN category VARCHAR(50) DEFAULT 'platform' AFTER icon";
+    if ($conn->query($alterEcosystemSQL) === TRUE) {
+        echo "Column 'category' added to 'ecosystem' table<br>";
+    } else {
+        echo "Error adding column 'category': " . $conn->error . "<br>";
+    }
 } else {
-    echo "Note: Column 'category' may already exist in 'ecosystem' table<br>";
+    echo "Column 'category' already exists in 'ecosystem' table<br>";
 }
 
 // Update who_we_are table to include image
-$alterWhoWeAreSQL = "ALTER TABLE who_we_are ADD COLUMN image_path VARCHAR(500) AFTER content";
-if ($conn->query($alterWhoWeAreSQL) === TRUE) {
-    echo "Column 'image_path' added to 'who_we_are' table<br>";
+$checkColumnSQL = "SHOW COLUMNS FROM who_we_are LIKE 'image_path'";
+$result = $conn->query($checkColumnSQL);
+if ($result->num_rows == 0) {
+    $alterWhoWeAreSQL = "ALTER TABLE who_we_are ADD COLUMN image_path VARCHAR(500) AFTER content";
+    if ($conn->query($alterWhoWeAreSQL) === TRUE) {
+        echo "Column 'image_path' added to 'who_we_are' table<br>";
+    } else {
+        echo "Error adding column 'image_path': " . $conn->error . "<br>";
+    }
 } else {
-    echo "Note: Column 'image_path' may already exist in 'who_we_are' table<br>";
+    echo "Column 'image_path' already exists in 'who_we_are' table<br>";
 }
 
 // Insert default data for who_we_are if table is empty

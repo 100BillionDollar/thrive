@@ -80,7 +80,7 @@ $data = $dashboard->getDashboardData();
                     <div class="banner-item">
                         <div class="banner-content">
                             <div class="banner-image">
-                                <img src="assets/images/banner1.jpg" alt="Empowering Families">
+                                <img src="admin/assets/images/logo-white-1.png" alt="Empowering Families">
                             </div>
                             <div class="banner-text">
                                 <h3>Empowering Families</h3>
@@ -91,7 +91,7 @@ $data = $dashboard->getDashboardData();
                     <div class="banner-item">
                         <div class="banner-content">
                             <div class="banner-image">
-                                <img src="assets/images/banner2.jpg" alt="Building Strong Communities">
+                                <img src="admin/assets/images/logo-white-1.png" alt="Building Strong Communities">
                             </div>
                             <div class="banner-text">
                                 <h3>Building Strong Communities</h3>
@@ -102,7 +102,7 @@ $data = $dashboard->getDashboardData();
                     <div class="banner-item">
                         <div class="banner-content">
                             <div class="banner-image">
-                                <img src="assets/images/banner3.jpg" alt="Innovative Solutions">
+                                <img src="admin/assets/images/logo-white-1.png" alt="Innovative Solutions">
                             </div>
                             <div class="banner-text">
                                 <h3>Innovative Solutions</h3>

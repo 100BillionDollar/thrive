@@ -86,6 +86,7 @@ CREATE TABLE `ecosystem` (
   `name` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `icon` varchar(100) DEFAULT NULL,
+  `category` varchar(50) DEFAULT 'platform',
   `status` enum('active','inactive') DEFAULT 'active',
   `sort_order` int(11) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -96,10 +97,10 @@ CREATE TABLE `ecosystem` (
 -- Dumping data for table `ecosystem`
 --
 
-INSERT INTO `ecosystem` (`id`, `name`, `description`, `icon`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
-(1, 'Parenting360', 'Comprehensive parenting resources and support', 'fa-baby', 'active', 1, '2025-12-29 06:07:26', '2025-12-29 06:07:26'),
-(2, 'MomsHQ', 'Empowering mothers with knowledge and community', 'fa-heart', 'active', 2, '2025-12-29 06:07:26', '2025-12-29 06:07:26'),
-(3, 'Diyaa', 'Innovative solutions for modern families', 'fa-lightbulb', 'active', 3, '2025-12-29 06:07:26', '2025-12-29 06:07:26');
+INSERT INTO `ecosystem` (`id`, `name`, `description`, `icon`, `category`, `status`, `sort_order`, `created_at`, `updated_at`) VALUES
+(1, 'Parenting360', 'Comprehensive parenting resources and support', 'fa-baby', 'platform', 'active', 1, '2025-12-29 06:07:26', '2025-12-29 06:07:26'),
+(2, 'MomsHQ', 'Empowering mothers with knowledge and community', 'fa-heart', 'community', 'active', 2, '2025-12-29 06:07:26', '2025-12-29 06:07:26'),
+(3, 'Diyaa', 'Innovative solutions for modern families', 'fa-lightbulb', 'service', 'active', 3, '2025-12-29 06:07:26', '2025-12-29 06:07:26');
 
 -- --------------------------------------------------------
 
