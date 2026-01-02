@@ -12,11 +12,15 @@ class Dashboard {
         $this->activityManager = new ActivityManager($conn);
     }
 
+    public function getConn() {
+        return $this->conn;
+    }
+
     public function getDashboardData() {
         $data = [];
         
         // Get Who We Are data
-        $data['who_we_are'] = $this->getWhoWeAreData();
+        $data['who_we_are'] = $this->getWhoweareData();
         
         // Get Heart of Mission data
         $data['heart_of_mission'] = $this->getHeartOfMissionData();
@@ -40,19 +44,15 @@ class Dashboard {
         return $data;
     }
 
-    private function getWhoWeAreData() {
-        $sql = "SELECT title, content, image_path FROM who_we_are WHERE status = 'active' LIMIT 1";
+    private function getWhoweareData() {
+        $sql = "SELECT * FROM who_we_are WHERE status = 1 ORDER BY id";
         $result = $this->conn->query($sql);
         
-        if ($result && $result->num_rows > 0) {
-            return $result->fetch_assoc();
+        if ($result) {
+            return $result->fetch_all(MYSQLI_ASSOC);
         }
         
-        return [
-            'title' => 'Building Tomorrow\'s Solutions Today',
-            'content' => 'We are a team of passionate professionals dedicated to creating innovative solutions that transform businesses and improve lives.',
-            'image_path' => 'assets/images/who-we-are.jpg'
-        ];
+        return [];
     }
 
     private function getHeartOfMissionData() {
@@ -224,26 +224,54 @@ class Dashboard {
         }
     }
 
-    public function updateBanner($id, $title, $content, $image_path = null, $position = null) {
+   public function updateBanner($id, $title, $content, $image_path = null, $position = null)
+{
+    $sql = "UPDATE banner SET title = ?, content = ?";
+    $types = "ss";
+    $values = [$title, $content];
+
+    if ($image_path !== null) {
+        $sql .= ", image_path = ?";
+        $types .= "s";
+        $values[] = $image_path;
+    }
+
+    if ($position !== null) {
+        $sql .= ", position = ?";
+        $types .= "i";
+        $values[] = (int)$position;
+    }
+
+    $sql .= " WHERE id = ?";
+    $types .= "i";
+    $values[] = (int)$id;
+
+    $stmt = $this->conn->prepare($sql);
+
+    if (!$stmt) {
+        return [
+            'success' => false,
+            'message' => $this->conn->error
+        ];
+    }
+
+    // 🔥 Dynamic bind_param (correct way)
+    $stmt->bind_param($types, ...$values);
+
+    if ($stmt->execute()) {
+        return [
+            'success' => true,
+            'message' => 'Banner updated successfully'
+        ];
+    }
+
+    return [
+        'success' => false,
+        'message' => $stmt->error
+    ];
+}
+    public function updateBanner_old($id, $title, $content, $image_path = null, $position = null) {
         $sql = "UPDATE banner SET title = ?, content = ?";
-        $params = "si";
-        $bind_params = [$title, $id];
-        
-        if ($image_path) {
-            $sql .= ", image_path = ?";
-            $params .= "s";
-            array_unshift($bind_params, $image_path);
-        }
-        
-        if ($position !== null) {
-            $sql .= ", position = ?";
-            $params .= "i";
-            if ($image_path) {
-                $bind_params[] = $position;
-            } else {
-                array_unshift($bind_params, $position);
-            }
-        }
         
         $sql .= ", updated_at = NOW() WHERE id = ?";
         
@@ -272,10 +300,10 @@ class Dashboard {
     }
 
     // Ecosystem management methods
-    public function addEcosystemItem($name, $description, $icon, $category = 'platform') {
-        $sql = "INSERT INTO ecosystem (name, description, icon, category, status) VALUES (?, ?, ?, ?, 'active')";
+    public function addEcosystemItem($name, $description, $image_path, $category = 'platform') {
+        $sql = "INSERT INTO ecosystem (name, description, image_path, category, status) VALUES (?, ?, ?, ?, 'active')";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssss", $name, $description, $icon, $category);
+        $stmt->bind_param("ssss", $name, $description, $image_path, $category);
         
         if ($stmt->execute()) {
             $this->activityManager->logActivity("New ecosystem item added: " . $name, "Ecosystem item was added", "admin");
@@ -285,10 +313,10 @@ class Dashboard {
         }
     }
 
-    public function updateEcosystemItem($id, $name, $description, $icon, $category = 'platform') {
-        $sql = "UPDATE ecosystem SET name = ?, description = ?, icon = ?, category = ?, updated_at = NOW() WHERE id = ?";
+    public function updateEcosystemItem($id, $name, $description, $image_path, $category = 'platform') {
+        $sql = "UPDATE ecosystem SET name = ?, description = ?, image_path = ?, category = ?, updated_at = NOW() WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sssss", $name, $description, $icon, $category, $id);
+        $stmt->bind_param("sssss", $name, $description, $image_path, $category, $id);
         
         if ($stmt->execute()) {
             $this->activityManager->logActivity("Ecosystem item updated: " . $name, "Ecosystem item was modified", "admin");
@@ -382,6 +410,21 @@ class Dashboard {
         }
         
         return 0;
+    }
+
+    public function getSetting($key) {
+        $sql = "SELECT setting_value FROM settings WHERE setting_key = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $key);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['setting_value'];
+        }
+        
+        return null;
     }
 }
 ?>

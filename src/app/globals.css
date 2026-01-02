@@ -92,3 +92,6 @@ body{background-color: var(--bg-color);}
 body  .banner .swiper-pagination{bottom: 38px;text-align: end;padding-right: 50px;}        
 body  .banner .swiper-pagination-bullet{background-color: var(--btn-color);opacity: 1;height: 12px;width: 12px;}
 body  .banner .swiper-pagination-bullet-active{background-color: #fff;}
+.desc p{
+  margin-bottom: 1em;
+}

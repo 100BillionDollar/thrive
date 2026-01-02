@@ -139,6 +139,24 @@ if ($conn->query($ecosystemSQL) === TRUE) {
     echo "Error creating table 'ecosystem': " . $conn->error . "<br>";
 }
 
+// Create whoweare table
+$whoweareSQL = "CREATE TABLE IF NOT EXISTS whoweare (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    content TEXT,
+    description TEXT NOT NULL,
+    image_path VARCHAR(500),
+    status INT DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)";
+
+if ($conn->query($whoweareSQL) === TRUE) {
+    echo "Table 'whoweare' created successfully<br>";
+} else {
+    echo "Error creating table 'whoweare': " . $conn->error . "<br>";
+}
+
 // Add category column to ecosystem table if it doesn't exist
 $alterEcosystemSQL = "ALTER TABLE ecosystem ADD COLUMN category VARCHAR(50) DEFAULT 'platform' AFTER icon";
 $result = $conn->query($alterEcosystemSQL);

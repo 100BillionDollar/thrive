@@ -1,39 +1,50 @@
 <?php
 session_start();
-require_once '../config/database.php';
 
 // Check if admin is logged in
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     http_response_code(403);
-    echo 'Unauthorized';
+    echo json_encode([
+        'status' => false,
+        'message' => 'Unauthorized'
+    ]);
     exit;
 }
 
 // Check if file was uploaded
 if (!isset($_FILES['file'])) {
     http_response_code(400);
-    echo 'No file uploaded';
+    echo json_encode([
+        'status' => false,
+        'message' => 'No file uploaded'
+    ]);
     exit;
 }
 
 $file = $_FILES['file'];
 
-// Validate file type
+// Allowed file types
 $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 if (!in_array($file['type'], $allowedTypes)) {
     http_response_code(400);
-    echo 'Invalid file type. Only JPEG, PNG, GIF, and WebP are allowed.';
+    echo json_encode([
+        'status' => false,
+        'message' => 'Invalid file type'
+    ]);
     exit;
 }
 
-// Validate file size (5MB max)
+// Max size: 5MB
 if ($file['size'] > 5 * 1024 * 1024) {
     http_response_code(400);
-    echo 'File too large. Maximum size is 5MB.';
+    echo json_encode([
+        'status' => false,
+        'message' => 'File too large (Max 5MB)'
+    ]);
     exit;
 }
 
-// Create uploads directory if it doesn't exist
+// Upload directory
 $uploadDir = '../assets/images/uploads/';
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0755, true);
@@ -41,30 +52,23 @@ if (!is_dir($uploadDir)) {
 
 // Generate unique filename
 $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-$filename = uniqid('banner_', true) . '.' . $extension;
-$filepath = $uploadDir . $filename;
+$filename  = uniqid('banner_', true) . '.' . $extension;
+$filepath  = $uploadDir . $filename;
+$imagePath = 'assets/images/uploads/' . $filename;
 
-// Move uploaded file
+// Move file
 if (move_uploaded_file($file['tmp_name'], $filepath)) {
-    // Save to database
-    try {
-        $stmt = $conn->prepare("INSERT INTO banner (title, content, image_path, created_at) VALUES (?, ?, ?, NOW())");
-        $title = 'New Banner'; // Default title
-        $content = ''; // Default content
-        $imagePath = 'assets/images/uploads/' . $filename;
-        
-        $stmt->bind_param("sss", $title, $content, $imagePath);
-        $stmt->execute();
-        
-        echo 'Upload successful';
-    } catch (Exception $e) {
-        // Delete the uploaded file if database insert fails
-        unlink($filepath);
-        http_response_code(500);
-        echo 'Database error: ' . $e->getMessage();
-    }
+    echo json_encode([
+        'status'     => true,
+        'message'    => 'Upload successful',
+        'image_name' => $filename,
+        'image_path' => $imagePath
+    ]);
 } else {
     http_response_code(500);
-    echo 'Failed to save file';
+    echo json_encode([
+        'status' => false,
+        'message' => 'Failed to upload file'
+    ]);
 }
 ?>

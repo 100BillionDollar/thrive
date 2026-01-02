@@ -35,7 +35,7 @@ export default function NewsletterForm() {
         setIsLoading(true);
 
         const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/admin/api/newsletter.php`,
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}newsletter.php`,
             {
                 method: "POST",
                 headers: {

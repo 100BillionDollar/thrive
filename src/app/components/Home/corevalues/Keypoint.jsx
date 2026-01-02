@@ -1,15 +1,15 @@
 import React from 'react';
 import Image from 'next/image';
 
-export default function Keypoint() {
+export default function Keypoint({whoweare = []}) {
   return (
     <section className="relative">
       <div className=" mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <div className="lg:col-span-6">
             <div className="relative rounded-[20px] overflow-hidden shadow-lg">
-              <Image
-                src="/assets/images/home/corevalue/key_point_right_img_2.jpg"
+              <img
+                src={whoweare[0]?.image_path ? `${process.env.NEXT_PUBLIC_API_IMAGE_URL}${whoweare[0].image_path}` : `/assets/images/home/who_we_are.jpg`}
                 alt="Mothers supporting each other – building a community of understanding and growth"
                 height={985}
                 width={1920}
@@ -21,24 +21,16 @@ export default function Keypoint() {
           </div>
 
           <div className="lg:col-span-6 order-1 lg:order-2 space-y-5 text-lg leading-relaxed  text-[#fff]">
-            <p>
-              We came together as mothers because we once needed a space like this ourselves — a space where you don’t have to explain your struggles, where support feels easy to reach, and where your story is met with kindness instead of judgement.
-            </p>
-            <p>
-              We believe every family deserves that kind of space. Every mother deserves to feel understood. Every child deserves to feel seen. And every human deserves to be celebrated for who they are.
-            </p>
-            <p>
-             Our own journeys, the highs, the doubts, the pressures, and the quiet moments no one talks about, are what shaped this mission. <strong className='font-medium'>We built this ecosystem so mothers, families, and people of determination can access support without barriers, so every story is met with connection, compassion, and a pathway to growth.</strong>
-
-            </p>
-          
-            <p className="text-xl text-[#fff] ">
-              This is why we are building ThriveHQ.
-            </p>
-            <p className="text-lg text-[#fff]">
-<strong className='font-medium'>  We are building an evolving ecosystem where growth is accessible, inclusion is normal, and every human is empowered to thrive.</strong>
-
-            </p>
+            <div className='desc'>
+            {whoweare[0]?.content ? (
+              <div
+                dangerouslySetInnerHTML={{ __html: whoweare[0].content }}/>
+            ) : (
+              <p>
+                We are a group of passionate mothers who came together to build the space we once needed — a space where support is accessible, inclusion feels natural, and every story has a safe place to be heard. We are on this journey because, as mothers, we believe that every family deserves support, every story deserves to be understood, and every human deserves to be celebrated. Our lived experiences shaped our purpose: to create an ecosystem where real lives, real emotions, and real challenges are met with compassion, guidance, and connection. This is why we are building Thrive HQ.
+              </p>
+            )}
+            </div>
           </div>
         </div>
       </div>

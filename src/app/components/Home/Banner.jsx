@@ -1,5 +1,5 @@
-'use client';
-import React, { useState, useEffect } from 'react';
+"use client";
+import React from 'react';
 import Image from 'next/image';
 import Button from '../common/Button';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -8,57 +8,28 @@ import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
 import gsap from 'gsap';
-export default function Banner() {
-  const [isMounted, setIsMounted] = useState(false);
 
-  const slides = [
-    {
-      img: '/assets/images/home/banner-one.jpg',
-      alt: 'Banner 1',
-      heading: 'Empowering Every Human to Thrive',
-      sub: 'A place for real people, real stories, and real growth',
-    },
-    {
-      img: '/assets/images/home/banner-two.jpg',
-      alt: 'Banner 2',
-     heading: 'Empowering Every Human to Thrive',
-      sub: 'A place for real people, real stories, and real growth',
-    },
-    {
-      img: '/assets/images/home/banner-three.jpg',
-      alt: 'Banner 3',
-       heading: 'Empowering Every Human to Thrive',
-      sub: 'A place for real people, real stories, and real growth',
-    },
-  ];
-
+export default function Banner({ banners = [] }) {
   const scrollToSection = (sectionId) => {
     gsap.to(window, {
       duration: 1.2,
-      scrollTo: { y: sectionId, offsetY: 80 }, 
+      scrollTo: { y: sectionId, offsetY: 80 },
       ease: "power3.inOut",
       onComplete: () => {
-        if (isMenuOpen) toggleMenu() 
+        if (isMenuOpen) toggleMenu()
       }
     })
   }
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
-  if (!isMounted) {
-    return (
-      <div className="relative w-full h-screen bg-gray-200">
-        <Image
-          src={slides[0].img}
-          alt={slides[0].alt}
-          fill
-          className="object-cover"
-          priority
-        />
-      </div>
-    );
-  }
+ 
+
+  const slides = banners.map(banner => ({
+    img: `${process.env.NEXT_PUBLIC_API_IMAGE_URL}${banner.image_path}`,
+    alt: banner.title,
+    heading: banner.title,
+    sub: banner.content
+  })) ;
+  console.log('Banner slides:', slides);
 
   return (
     <div className="relative banner">
@@ -79,10 +50,9 @@ export default function Banner() {
             <Image
               src={slide.img}
               alt={slide.alt}
-              height={1029}
-              width={1920}
-              className="object-cover w-full h-full"
-              priority={idx === 0}
+              fill
+              className="object-cover"
+              unoptimized={true}
             />
             <div className="absolute inset-0 lg:bg-black/30 bg-black/60" />
             <div className="absolute inset-0 flex lg:pl-[100px] items-center pt-[40px] lg:pt-0   lg:items-end lg:pb-[140px]  lg:justify-start z-10">
@@ -102,7 +72,7 @@ export default function Banner() {
         ))}
       </Swiper>
 
-    
+
     </div>
   );
 }

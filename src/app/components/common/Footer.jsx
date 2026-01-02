@@ -33,12 +33,12 @@ export default function Footer() {
                     
                     <ul className=' flex items-center my-[35px] gap-[20px] '>
                         <li >
-                            <Link className='' href={'privacy-policy'} target='_blank'>
+                            <Link className='' href={'privacy-policy'}>
                                 Privacy Policy
                             </Link>
                         </li>
                         <li >
-                            <Link className='' href={'terms-and-conditions'} target='_blank'>
+                            <Link className='' href={'terms-and-conditions'}>
                                 Terms of Use
 
                             </Link>

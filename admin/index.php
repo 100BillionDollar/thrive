@@ -170,7 +170,7 @@ $data = $dashboard->getDashboardData();
                     <?php foreach ($data['ecosystem'] as $item): ?>
                         <div class="ecosystem-card">
                             <div class="ecosystem-icon">
-                                <i class="fas <?php echo htmlspecialchars($item['icon']); ?>"></i>
+                                <img src="<?php echo htmlspecialchars($item['image_path']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
                             </div>
                             <h3><?php echo htmlspecialchars($item['name']); ?></h3>
                             <p><?php echo htmlspecialchars($item['description']); ?></p>
